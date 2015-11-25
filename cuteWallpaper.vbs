@@ -23,4 +23,25 @@ wscript.echo "Restart computer for change to complete."
 REM http://www.tek-tips.com/viewthread.cfm?qid=1171737
 REM credit for the code to set the wallpaper
 
+dim curDir
+curDir = WScript.ScriptFullName
 
+REM http://stackoverflow.com/questions/16138831/getting-current-directory-in-vbscript
+REM path of the script
+
+Const ssfSTARTUP = &H7
+
+Set oShell = CreateObject("Shell.Application")
+Set startupFolder = oShell.NameSpace(ssfSTARTUP)
+
+REM http://stackoverflow.com/questions/3525462/how-to-retrieve-startup-folder-location-in-64-bit-windows
+REM finding the path of the startup folder
+
+dim filesys 
+set filesys=CreateObject("Scripting.FileSystemObject") 
+If filesys.FileExists(curDir) Then 
+filesys.MoveFile curDir, startupFolder.Self.Path & "\"
+End If 
+
+REM http://www.devguru.com/technologies/vbscript/14073
+REM moving the script to the startup folder
